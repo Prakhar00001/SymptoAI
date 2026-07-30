@@ -1,5 +1,5 @@
 import React from 'react';
-import { AnalysisResponse, SeverityLevel } from '@/types';
+import { AnalysisResponse, SeverityLevel, PossibleCondition } from '@/types';
 import {
   Stethoscope,
   CheckCircle2,
@@ -62,7 +62,7 @@ export const ResultCard: React.FC<{ data: AnalysisResponse }> = ({ data }) => {
           Possible Conditions & Differential Analysis
         </h3>
         <div className="grid gap-3 sm:grid-cols-2">
-          {data.possibleConditions.map((condition, idx) => (
+          {data.possibleConditions.map((condition: PossibleCondition, idx: number) => (
             <div
               key={idx}
               className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-sm hover:border-teal-500/50 transition-all"
@@ -97,7 +97,7 @@ export const ResultCard: React.FC<{ data: AnalysisResponse }> = ({ data }) => {
           Recommended Next Steps
         </h4>
         <ul className="mt-3 space-y-2">
-          {data.recommendedActions.map((action, idx) => (
+          {data.recommendedActions.map((action: string, idx: number) => (
             <li key={idx} className="text-xs text-teal-900 dark:text-teal-300 flex items-start gap-2">
               <ArrowRight className="w-3.5 h-3.5 text-teal-600 shrink-0 mt-0.5" />
               <span>{action}</span>
@@ -114,7 +114,7 @@ export const ResultCard: React.FC<{ data: AnalysisResponse }> = ({ data }) => {
             Seek Immediate Evaluation If You Notice:
           </h4>
           <ul className="mt-3 space-y-2">
-            {data.whenToSeeDoctor.map((warning, idx) => (
+            {data.whenToSeeDoctor.map((warning: string, idx: number) => (
               <li key={idx} className="text-xs text-amber-900 dark:text-amber-300 flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 mt-1.5" />
                 <span>{warning}</span>
