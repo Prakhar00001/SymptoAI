@@ -4,14 +4,16 @@
 
 **Production-grade, edge-accelerated medical symptom checker, emergency severity classifier, and interactive patient triage platform.**
 
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Access_App-000000?style=for-the-badge&logo=vercel)](https://sympto-ai.vercel.app)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14.1-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-🌐 [Click Here to Launch SymptoAI Live Demo](sympto-ai-six.vercel.app)
+[![Vercel Edge](https://img.shields.io/badge/Deployment-Vercel_Edge-000000?style=for-the-badge&logo=vercel)](https://vercel.com/prakharsaini786-5811s-projects/sympto-ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg?style=for-the-badge)](LICENSE)
 
-</div>
+### 🌐 [Launch SymptoAI Live Production App](https://sympto-ai.vercel.app)
 
+</div>
 ---
 
 ## ⚡ Overview
