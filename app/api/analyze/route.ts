@@ -14,31 +14,40 @@ export async function POST(req: Request) {
       );
     }
 
-    const apiKey = process.env.GROQ_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: 'Groq API Key is not configured on the server.' },
+        { error: 'Gemini API Key is not configured on the server. Please check your .env.local file.' },
         { status: 500 }
       );
     }
 
+    const userPrompt = `Patient Demographics/Context: ${JSON.stringify(
+      userContext || {}
+    )}\n\nReported Symptoms & Notes: ${symptoms}`;
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
     const payload = {
-      model: 'llama-3.3-70b-versatile',
-      messages: [
-        { role: 'system', content: MEDICAL_SYSTEM_PROMPT },
+      contents: [
         {
           role: 'user',
-          content: `Patient Demographics/Context: ${JSON.stringify(userContext || {})}\n\nReported Symptoms & Notes: ${symptoms}`,
+          parts: [
+            {
+              text: `${MEDICAL_SYSTEM_PROMPT}\n\n${userPrompt}`,
+            },
+          ],
         },
       ],
-      temperature: 0.1,
-      response_format: { type: 'json_object' },
+      generationConfig: {
+        temperature: 0.1,
+        responseMimeType: 'application/json',
+      },
     };
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
@@ -46,12 +55,21 @@ export async function POST(req: Request) {
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error('Groq API Call Failed:', errText);
-      return NextResponse.json({ error: 'AI processing service error.' }, { status: 502 });
+      console.error('Gemini API Call Failed:', errText);
+      return NextResponse.json(
+        { error: 'Gemini AI processing service error. Please check your API key.' },
+        { status: 502 }
+      );
     }
 
     const data = await response.json();
-    const resultJson = JSON.parse(data.choices[0].message.content);
+    const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!rawText) {
+      throw new Error('Empty response from Gemini API.');
+    }
+
+    const resultJson = JSON.parse(rawText);
 
     return NextResponse.json(resultJson);
   } catch (error) {
